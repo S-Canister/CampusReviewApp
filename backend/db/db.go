@@ -69,6 +69,7 @@ func CreateAllTables(db *sql.DB) error {
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
 			area_id INTEGER NOT NULL,
 			name TEXT NOT NULL,
+			location TEXT,
 			description TEXT,
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			FOREIGN KEY (area_id) REFERENCES areas (id)
@@ -133,11 +134,11 @@ func initBasicData(db *sql.DB) error {
 	if count == 0 {
 		// 添加区域数据
 		areas := []string{
-			"第一食堂",
-			"第二食堂",
-			"第三食堂",
-			"西区餐厅",
-			"教工餐厅",
+			"海棠餐厅",
+			"竹园餐厅",
+			"丁香餐厅",
+			"新综合楼",
+			"老综合楼",
 		}
 		
 		for _, area := range areas {
@@ -153,23 +154,23 @@ func initBasicData(db *sql.DB) error {
 			StallNames []string
 		}{
 			{
-				AreaName: "第一食堂",
+				AreaName: "海棠餐厅",
 				StallNames: []string{"米粉窗口", "川菜窗口", "小炒窗口", "面点窗口", "汤粥窗口"},
 			},
 			{
-				AreaName: "第二食堂",
+				AreaName: "竹园餐厅",
 				StallNames: []string{"麻辣香锅", "湘菜窗口", "烧腊窗口", "铁板炒饭", "粤菜窗口"},
 			},
 			{
-				AreaName: "第三食堂",
+				AreaName: "丁香餐厅",
 				StallNames: []string{"西北拉面", "东北饺子", "沙茶面", "鸭血粉丝", "烤肉饭"},
 			},
 			{
-				AreaName: "西区餐厅",
+				AreaName: "新综合楼",
 				StallNames: []string{"水煮系列", "冒菜窗口", "盖浇饭", "卤味窗口", "煲仔饭"},
 			},
 			{
-				AreaName: "教工餐厅",
+				AreaName: "老综合楼",
 				StallNames: []string{"特色炒饭", "小炒系列", "中西简餐", "清真窗口", "江浙菜系"},
 			},
 		}

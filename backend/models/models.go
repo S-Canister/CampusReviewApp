@@ -12,7 +12,7 @@ import (
 type User struct {
 	ID       string `json:"id"`
 	Username string `json:"username"`
-	Password string `json:"-"`
+	Password string `json:"password"`
 }
 
 // Area 区域模型
@@ -66,9 +66,9 @@ func CreateUser(db *sql.DB, user User) error {
 
 	// // 加密密码
 	// hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
-	if err != nil {
-		return err
-	}
+	// if err != nil {
+	// 	return err
+	// }
 
 	// 插入用户记录
 	_, err = db.Exec(
