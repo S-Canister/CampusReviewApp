@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
+	"strings"
 	"github.com/gin-gonic/gin"
 	"github.com/S-Canister/CampusReviewApp/backend/models"
 	"github.com/S-Canister/CampusReviewApp/backend/db"
@@ -100,6 +102,17 @@ func main() {
 		c.JSON(http.StatusOK, areas)
 	})
 
+	// 获取单个区域信息
+	r.GET("/areas/:id", func(c *gin.Context) {
+		areaID := c.Param("id")
+		area, err := models.GetAreaByID(dbConn, areaID)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get area"})
+			return
+		}
+		c.JSON(http.StatusOK, area)
+	})
+
 	// 档口相关API
 	r.GET("/stalls", func(c *gin.Context) {
 		areaID := c.Query("area_id")
@@ -116,7 +129,7 @@ func main() {
 		c.JSON(http.StatusOK, stalls)
 	})
 
-	// 获取热门档口
+	// 获取热门档口 - 注意：必须放在"/stalls/:id"前面
 	r.GET("/stalls/popular", func(c *gin.Context) {
 		limit := 10
 		limitStr := c.Query("limit")
@@ -134,6 +147,17 @@ func main() {
 			return
 		}
 		c.JSON(http.StatusOK, stalls)
+	})
+
+	// 获取单个档口信息 - 注意：必须放在"/stalls/popular"后面
+	r.GET("/stalls/:id", func(c *gin.Context) {
+		stallID := c.Param("id")
+		stall, err := models.GetStallByID(dbConn, stallID)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get stall"})
+			return
+		}
+		c.JSON(http.StatusOK, stall)
 	})
 
 	// 点评相关API
@@ -206,6 +230,17 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"message": "Favorite created successfully"})
 	})
 
+	// 删除收藏
+	r.DELETE("/favorites/:id", func(c *gin.Context) {
+		favoriteID := c.Param("id")
+		err := models.DeleteFavorite(dbConn, favoriteID)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete favorite"})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"message": "Favorite deleted successfully"})
+	})
+
 	// 搜索功能
 	r.GET("/search", func(c *gin.Context) {
 		keyword := c.Query("keyword")
@@ -232,12 +267,41 @@ func main() {
 		})
 	})
 
-	// // 静态文件服务 - 移到所有API路由之后
-	// r.Static("/static", "./frontend")
+	// 静态文件服务 - 修改后的配置
+	// 首页
+	r.StaticFile("/", "./frontend/index.html")
+	
+	// CSS文件 - 包括直接使用style.css的情况
+	r.Static("/css", "./frontend/css")
+	
+	// JavaScript文件
+	r.Static("/js", "./frontend/js")
+	
+	// 模板文件
+	r.Static("/templates", "./frontend/templates")
+	
+	// 图片等其他静态资源
+	r.Static("/assets", "./frontend/assets")
 
-	r.StaticFile("/", "./frontend/index.html")       // 根路径显示index.html
-	r.Static("/css", "./frontend/css")               // CSS文件
-    r.Static("/js", "./frontend/js") 
+	// 支持单页应用的路由，任何未匹配到的路由返回index.html
+	r.NoRoute(func(c *gin.Context) {
+		// 检查是否直接访问了静态资源
+		if strings.HasSuffix(c.Request.URL.Path, ".js") || 
+		   strings.HasSuffix(c.Request.URL.Path, ".css") || 
+		   strings.HasSuffix(c.Request.URL.Path, ".html") || 
+		   strings.HasSuffix(c.Request.URL.Path, ".png") || 
+		   strings.HasSuffix(c.Request.URL.Path, ".jpg") {
+			// 尝试从静态文件夹提供
+			localPath := "./frontend" + c.Request.URL.Path
+			if _, err := os.Stat(localPath); err == nil {
+				c.File(localPath)
+				return
+			}
+		}
+		
+		// 默认返回index.html
+		c.File("./frontend/index.html")
+	})
 
 	// Start the server on port 8080
 	if err := r.Run(":8080"); err != nil {

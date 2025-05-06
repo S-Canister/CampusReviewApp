@@ -1,0 +1,65 @@
+/* 卡片网格布局 */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--border-color);
+    height: 100%;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+    height: 160px;
+    object-fit: cover;
+    background-color: #e9ecef;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.card-text {
+    color: var(--light-text);
+    font-size: 0.9rem;
+}
+
+.card-rating {
+    margin-top: 10px;
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+}
+
+.card-rating i {
+    margin-right: 2px;
+}
+
+.card-meta {
+    display: flex;
+    justify-content: space-between;
+    color: var(--light-text);
+    font-size: 0.8rem;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .card-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}

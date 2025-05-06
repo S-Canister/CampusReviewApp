@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>校园点评</title>
+    <!-- CSS引入 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./css/style.css">
@@ -18,10 +19,10 @@
         </div>
     </div>
 
-    <!-- 顶部导航栏 - 仅在登录后显示 -->
+    <!-- 顶部导航栏 -->
     <nav id="top-nav" class="navbar navbar-expand-lg navbar-light bg-light fixed-top" style="display: none;">
         <div class="container">
-            <a class="navbar-brand" href="#">校园点评</a>
+            <a class="navbar-brand" href="#/">校园点评</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -37,8 +38,9 @@
         </div>
     </nav>
 
-    <div class="container main-container">
-        <!-- 登录页面 -->
+    <!-- 主容器 - 页面内容 -->
+    <div class="container main-container" id="main-container">
+        <!-- 初始显示登录页，防止空白 -->
         <div id="login-page" class="auth-page">
             <div class="auth-card">
                 <h2 class="text-center mb-4">校园点评</h2>
@@ -54,181 +56,25 @@
                 <button id="register-button" class="btn btn-outline-secondary w-100">注册新账号</button>
             </div>
         </div>
-
-        <!-- 注册页面 -->
-        <div id="register-page" class="auth-page" style="display: none;">
-            <div class="auth-card">
-                <h2 class="text-center mb-4">注册新账号</h2>
-                <div class="mb-3">
-                    <label for="register-username" class="form-label">用户名</label>
-                    <input type="text" class="form-control" id="register-username" placeholder="请设置用户名">
-                </div>
-                <div class="mb-3">
-                    <label for="register-password" class="form-label">密码</label>
-                    <input type="password" class="form-control" id="register-password" placeholder="请设置密码">
-                </div>
-                <div class="mb-3">
-                    <label for="register-confirm-password" class="form-label">确认密码</label>
-                    <input type="password" class="form-control" id="register-confirm-password" placeholder="请再次输入密码">
-                </div>
-                <button id="submit-register-button" class="btn btn-primary w-100 mb-3">注册</button>
-                <button id="back-to-login-button" class="btn btn-outline-secondary w-100">返回登录</button>
-            </div>
-        </div>
-
-        <!-- 主页 -->
-        <div id="home-page" class="content-page" style="display: none;">
-            <div class="section-title">
-                <h2>热门区域</h2>
-            </div>
-            <div id="area-list" class="card-grid"></div>
-            
-            <div class="section-title mt-5">
-                <h2>热门档口</h2>
-            </div>
-            <div id="popular-stalls" class="card-grid"></div>
-        </div>
-
-        <!-- 区域详情页面 -->
-        <div id="area-detail-page" class="content-page" style="display: none;">
-            <div class="page-header">
-                <button class="btn btn-sm btn-outline-secondary back-button"><i class="bi bi-arrow-left"></i> 返回</button>
-                <h2 id="area-detail-name"></h2>
-            </div>
-            <div id="stall-list" class="card-grid"></div>
-            <button id="area-review-button" class="btn btn-primary action-button">
-                <i class="bi bi-pencil"></i> 点评该区域
-            </button>
-        </div>
-
-        <!-- 档口详情页面 -->
-        <div id="stall-detail-page" class="content-page" style="display: none;">
-            <div class="page-header">
-                <button class="btn btn-sm btn-outline-secondary back-button"><i class="bi bi-arrow-left"></i> 返回</button>
-                <h2 id="stall-detail-name"></h2>
-            </div>
-            <div class="stall-info">
-                <div class="rating-summary">
-                    <span id="stall-avg-rating">4.5</span>
-                    <div class="stars">
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-half"></i>
-                    </div>
-                    <span id="stall-review-count">20条点评</span>
-                </div>
-            </div>
-            
-            <div class="section-title">
-                <h3>点评列表</h3>
-            </div>
-            <div id="review-list" class="review-container"></div>
-            
-            <div class="action-buttons">
-                <button id="stall-review-button" class="btn btn-primary">
-                    <i class="bi bi-pencil"></i> 点评
-                </button>
-                <button id="favorite-button" class="btn btn-outline-danger">
-                    <i class="bi bi-heart"></i> 收藏
-                </button>
-            </div>
-        </div>
-
-        <!-- 点评页面 -->
-        <div id="review-page" class="content-page" style="display: none;">
-            <div class="page-header">
-                <button class="btn btn-sm btn-outline-secondary back-button"><i class="bi bi-arrow-left"></i> 返回</button>
-                <h2 id="review-target-name">点评</h2>
-            </div>
-            <div class="rating-input">
-                <p>请选择评分：</p>
-                <div class="rating-stars">
-                    <i class="bi bi-star rating-star" data-rating="1"></i>
-                    <i class="bi bi-star rating-star" data-rating="2"></i>
-                    <i class="bi bi-star rating-star" data-rating="3"></i>
-                    <i class="bi bi-star rating-star" data-rating="4"></i>
-                    <i class="bi bi-star rating-star" data-rating="5"></i>
-                </div>
-                <span id="selected-rating">0</span>/5分
-            </div>
-            <div class="mb-3">
-                <label for="review-content" class="form-label">点评内容</label>
-                <textarea class="form-control" id="review-content" rows="5" placeholder="请分享您的体验和建议..."></textarea>
-            </div>
-            <button id="submit-review-button" class="btn btn-primary action-button">提交点评</button>
-        </div>
-
-        <!-- 我的点评页面 -->
-        <div id="my-reviews-page" class="content-page" style="display: none;">
-            <h2>我的点评</h2>
-            <div id="my-review-list" class="review-container"></div>
-        </div>
-
-        <!-- 我的收藏页面 -->
-        <div id="my-favorites-page" class="content-page" style="display: none;">
-            <h2>我的收藏</h2>
-            <div id="my-favorite-list" class="card-grid"></div>
-        </div>
-
-        <!-- 个人中心页面 -->
-        <div id="profile-page" class="content-page" style="display: none;">
-            <div class="profile-header">
-                <div class="user-avatar large" id="profile-avatar"></div>
-                <h2 id="profile-username"></h2>
-            </div>
-            <div class="profile-stats">
-                <div class="stat-item">
-                    <span class="stat-number" id="review-count">0</span>
-                    <span class="stat-label">点评</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="favorite-count">0</span>
-                    <span class="stat-label">收藏</span>
-                </div>
-            </div>
-            <div class="profile-actions">
-                <button id="edit-profile-button" class="btn btn-outline-primary btn-block">
-                    <i class="bi bi-pencil"></i> 编辑个人资料
-                </button>
-                <button id="change-password-button" class="btn btn-outline-secondary btn-block">
-                    <i class="bi bi-key"></i> 修改密码
-                </button>
-                <button id="logout-button" class="btn btn-outline-danger btn-block">
-                    <i class="bi bi-box-arrow-right"></i> 退出登录
-                </button>
-            </div>
-        </div>
-
-        <!-- 搜索结果页面 -->
-        <div id="search-results-page" class="content-page" style="display: none;">
-            <div class="page-header">
-                <button class="btn btn-sm btn-outline-secondary back-button"><i class="bi bi-arrow-left"></i> 返回</button>
-                <h2>搜索结果</h2>
-            </div>
-            <p id="search-query"></p>
-            <div id="search-results" class="card-grid"></div>
-        </div>
     </div>
 
-    <!-- 底部导航 - 仅在登录后显示 -->
+    <!-- 底部导航 -->
     <nav id="bottom-nav" class="navbar fixed-bottom navbar-light bg-light" style="display: none;">
         <div class="container">
             <div class="navbar-nav nav-fill w-100 flex-row">
-                <a class="nav-item nav-link active" id="nav-home">
+                <a class="nav-item nav-link active" id="nav-home" href="#/">
                     <i class="bi bi-house"></i>
                     <span>主页</span>
                 </a>
-                <a class="nav-item nav-link" id="nav-my-reviews">
+                <a class="nav-item nav-link" id="nav-my-reviews" href="#/reviews">
                     <i class="bi bi-chat-square-text"></i>
                     <span>我的点评</span>
                 </a>
-                <a class="nav-item nav-link" id="nav-favorites">
+                <a class="nav-item nav-link" id="nav-favorites" href="#/favorites">
                     <i class="bi bi-heart"></i>
                     <span>收藏</span>
                 </a>
-                <a class="nav-item nav-link" id="nav-profile">
+                <a class="nav-item nav-link" id="nav-profile" href="#/profile">
                     <i class="bi bi-person"></i>
                     <span>我的</span>
                 </a>
@@ -247,9 +93,72 @@
         </div>
     </div>
 
+    <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
-    <script src="./js/script.js"></script>
+    
+    <!-- 应用脚本 - 注意顺序很重要 -->
+    <script src="./js/utils.js"></script>
+    <script src="./js/api.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/router.js"></script>
+    <script src="./js/app.js"></script>
+    
+    <!-- 调试初始化 -->
+    <script>
+        // 在控制台输出提示信息
+        console.log('应用已加载，可以使用 debugUI() 查看状态');
+        
+        // 直接绑定初始登录按钮事件
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginButton = document.getElementById('login-button');
+            if (loginButton) {
+                loginButton.addEventListener('click', () => {
+                    const username = document.getElementById('login-username').value;
+                    const password = document.getElementById('login-password').value;
+                    
+                    if (!username || !password) {
+                        showToast('登录失败', '用户名和密码不能为空');
+                        return;
+                    }
+                    
+                    showLoading();
+                    
+                    fetch('http://localhost:8080/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ username, password })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.id) {
+                            currentUser = data;
+                            localStorage.setItem('currentUser', JSON.stringify(data));
+                            navigateTo('/');
+                        } else {
+                            showToast('登录失败', data.error || '用户名或密码错误');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('登录失败:', error);
+                        showToast('登录失败', '网络错误，请稍后重试');
+                    })
+                    .finally(() => {
+                        hideLoading();
+                    });
+                });
+            }
+            
+            const registerButton = document.getElementById('register-button');
+            if (registerButton) {
+                registerButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    navigateTo('/register');
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
