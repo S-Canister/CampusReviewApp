@@ -1014,3 +1014,25 @@ function showToast(title, message) {
     const toast = new bootstrap.Toast(toastEl);
     toast.show();
 }
+
+// 
+function initReviewPage(param) {
+    // 重置评分
+    resetRating();
+    
+    // 设置点评目标名称
+    const targetName = param.name || '点评';
+    document.getElementById('review-target-name').textContent = targetName;
+    
+    // 显示点评页面
+    showPage('review-page');
+    
+    // 更新当前区域或档口ID
+    if (param.area_id) {
+        currentAreaId = param.area_id;
+        currentStallId = null;
+    } else if (param.stall_id) {
+        currentStallId = param.stall_id;
+        currentAreaId = null;
+    }
+}
