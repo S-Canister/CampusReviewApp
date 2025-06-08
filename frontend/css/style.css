@@ -346,17 +346,7 @@ body {
     background-color: white;
 }
 
-/* 响应式调整 */
-@media (min-width: 992px) {
-    body {
-        padding-top: 76px;
-    }
-    
-    #bottom-nav {
-        display: none !important;
-    }
-    
-    .action-button {
+.action-button {
         position: relative;
         bottom: auto;
         right: auto;
@@ -371,6 +361,16 @@ body {
         font-size: 1rem;
         margin-right: 8px;
     }
+
+/* 响应式调整 */
+@media (min-width: 992px) {
+    body {
+        padding-top: 76px;
+    }
+    
+    /* #bottom-nav {
+        display: none !important;
+    } */
 }
 
 @media (max-width: 768px) {

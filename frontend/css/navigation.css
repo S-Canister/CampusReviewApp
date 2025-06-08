@@ -1,10 +1,22 @@
 /* 导航栏样式 */
 #top-nav {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
 }
 
 #bottom-nav {
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    /* 强制显示底部导航栏，防止被其他样式覆盖 */
+    display: flex !important; 
 }
 
 #bottom-nav .nav-link {
@@ -24,9 +36,4 @@
     font-weight: 500;
 }
 
-/* 响应式调整 */
-@media (min-width: 992px) {
-    #bottom-nav {
-        display: none !important;
-    }
-}
+/* 移除所有可能隐藏导航栏的媒体查询 */

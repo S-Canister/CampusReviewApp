@@ -256,13 +256,28 @@ function showPage(pageId) {
     
     // 显示/隐藏导航栏
     const isAuthenticated = currentUser !== null;
+    
+    // 顶部导航栏
     document.getElementById('top-nav').style.display = isAuthenticated ? 'block' : 'none';
-    document.getElementById('bottom-nav').style.display = isAuthenticated ? 'flex' : 'none';
+    
+    // 底部导航栏 - 强制显示，覆盖所有CSS规则
+    const bottomNav = document.getElementById('bottom-nav');
+    if (isAuthenticated) {
+        bottomNav.style.display = 'flex';
+        // 添加 !important 属性
+        bottomNav.setAttribute('style', 'display: flex !important');
+    } else {
+        bottomNav.style.display = 'none';
+        bottomNav.setAttribute('style', 'display: none !important');
+    }
     
     // 如果已登录，更新用户头像
     if (isAuthenticated) {
         updateUserAvatar();
     }
+    
+    console.log('页面显示状态 - 顶部导航:', document.getElementById('top-nav').style.display);
+    console.log('页面显示状态 - 底部导航:', document.getElementById('bottom-nav').style.display);
 }
 
 // 导航到指定路由
@@ -286,6 +301,31 @@ function updateActiveNavItem(path) {
     } else if (path === '/profile') {
         document.getElementById('nav-profile').classList.add('active');
     }
+}
+
+// 更新页面显示状态
+function updatePageVisibility() {
+    // 显示/隐藏导航栏
+    const isAuthenticated = currentUser !== null;
+    
+    // 顶部导航栏
+    document.getElementById('top-nav').style.display = isAuthenticated ? 'block' : 'none';
+    
+    // 底部导航栏 - 强制显示，覆盖所有CSS规则
+    const bottomNav = document.getElementById('bottom-nav');
+    if (isAuthenticated) {
+        bottomNav.setAttribute('style', 'display: flex !important');
+    } else {
+        bottomNav.setAttribute('style', 'display: none !important');
+    }
+    
+    // 如果已登录，更新用户头像
+    if (isAuthenticated) {
+        updateUserAvatar();
+    }
+    
+    console.log('页面可见性更新 - 顶部导航:', document.getElementById('top-nav').style.display);
+    console.log('页面可见性更新 - 底部导航:', document.getElementById('bottom-nav').style.display);
 }
 
 // 检查登录状态
@@ -1036,3 +1076,37 @@ function initReviewPage(param) {
         currentAreaId = null;
     }
 }
+
+// 底部导航栏紧急修复函数
+function fixBottomNav() {
+    if (currentUser) {
+        const bottomNav = document.getElementById('bottom-nav');
+        bottomNav.style.removeProperty('display');
+        bottomNav.setAttribute('style', 'display: flex !important');
+        
+        // 修改CSS样式表
+        for (let i = 0; i < document.styleSheets.length; i++) {
+            try {
+                const styleSheet = document.styleSheets[i];
+                for (let j = 0; j < styleSheet.cssRules.length; j++) {
+                    const rule = styleSheet.cssRules[j];
+                    if (rule.selectorText && (
+                        rule.selectorText === '#bottom-nav' ||
+                        rule.selectorText.includes('#bottom-nav')
+                    )) {
+                        console.log('找到底部导航栏样式:', rule.cssText);
+                    }
+                }
+            } catch (e) {
+                console.log('无法读取样式表', i);
+            }
+        }
+        
+        return "已尝试修复底部导航栏";
+    } else {
+        return "用户未登录，底部导航栏不应显示";
+    }
+}
+
+// 暴露到全局
+window.fixBottomNav = fixBottomNav;

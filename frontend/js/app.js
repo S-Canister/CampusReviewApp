@@ -17,6 +17,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // 检查登录状态
     checkLoginStatus();
     
+    // 初始化后立即添加调试函数
+    window.setTimeout(function() {
+        // 强制显示底部导航栏（如果已登录）
+        if (currentUser) {
+            const bottomNav = document.getElementById('bottom-nav');
+            bottomNav.setAttribute('style', 'display: flex !important');
+            console.log('已强制显示底部导航栏');
+            
+            // 检查计算样式
+            const computedStyle = window.getComputedStyle(bottomNav);
+            console.log('底部导航栏计算样式:', computedStyle.display);
+        }
+    }, 1000);
+    
     console.log('初始化完成');
 });
 
